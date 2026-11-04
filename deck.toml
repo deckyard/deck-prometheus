@@ -1,0 +1,21 @@
+[package]
+name = "@jennifer/prometheus"
+version = "0.1.0"
+description = "Prometheus metrics: counters, gauges, histograms and summaries in the text exposition format, and queries against the Prometheus HTTP API"
+license = "LGPL-3.0-only"
+authors = ["mplx <mplx@jennifer-lang.dev>"]
+# The query half talks to a Prometheus server over HTTP, so the deck opens
+# sockets. The exposition half (render, counters, histograms) is pure text.
+# No `exec`, no `sql`.
+capabilities = ["net"]
+keywords = ["prometheus", "metrics", "monitoring", "observability", "exposition", "promql", "pushgateway"]
+
+[package.urls]
+deck = "https://raw.githubusercontent.com/jennifer-language/deck-prometheus/main/deck.toml"
+homepage = "https://github.com/jennifer-language/deck-prometheus"
+manual = "https://jennifer-language.github.io/deck-prometheus/"
+
+# Only the default binary: `jennifer-tiny` has no `net` capability, which
+# the query half needs.
+[engines]
+jennifer = ">=0.25.0"
