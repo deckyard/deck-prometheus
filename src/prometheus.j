@@ -668,7 +668,7 @@ func pushSegment(key as string, value as string) {
     }
     if (strings.contains($value, "/")) {
         return "/" + $key + "@base64/" +
-            encoding.toText(convert.bytesFromString($value, "utf-8"), "base64-url");
+            encoding.toText("base64-url", convert.bytesFromString("utf-8", $value));
     }
     return "/" + $key + "/" + uri.encode($value);
 }
