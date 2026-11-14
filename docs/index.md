@@ -147,7 +147,8 @@ A read client for the HTTP query API. Both return a `Result`.
 RFC 3339 or Unix-timestamp strings; `step` is a duration (`"15s"`) or a seconds
 string. An instant query returns a `"vector"` (one `Point` per series); a range
 query returns a `"matrix"` (many `Point`s per series). A server-reported query
-error throws an `Error` (kind `"prometheus"`), its text cut to 512 characters
+error throws a `PrometheusError` (kind `"prometheus"`, with the server's
+`errorType` such as `bad_data` and the HTTP `status`), its text cut to 512 characters
 with control characters replaced, as does a response the parser cannot read:
 a `NaN` or `±Inf` value (which Prometheus returns for a division by zero, and
 a Jennifer float cannot hold), a native-histogram point, a `"string"` result

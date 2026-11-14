@@ -81,6 +81,17 @@ A parsed query result set.
 | `resultType as string` | "vector", "matrix", "scalar", or "string" (a string result whose text is not a number throws) |
 | `series as list of Series` | the result series |
 
+### `PrometheusError`
+
+Every error of kind `"prometheus"`.
+
+| Field | Meaning |
+|---|---|
+| `kind as string` | always `"prometheus"` |
+| `message as string` | `prometheus: ` and the server's error, or what went wrong |
+| `errorType as string` | a query error's `errorType` (`bad_data`, `execution`, `timeout`, ...); "" for another failure |
+| `status as int` | the HTTP status of the query's answer; 0 when none |
+
 ### `MetricType`
 
 A Prometheus metric type.

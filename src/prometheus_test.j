@@ -169,7 +169,7 @@ func testPushgatewayPathBadLabelThrows() {
 
 func testParseVectorResult() {
     def body as string init '{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"up","job":"api"},"value":[1700000000.5,"1"]}]}}';
-    def r as Result init parseResult(json.decode($body));
+    def r as Result init parseResult(json.decode($body), 200);
     testing.assertEqual($r.resultType, "vector");
     testing.assertEqual(len($r.series), 1);
     testing.assertEqual($r.series[0].metric["job"], "api");
@@ -180,7 +180,7 @@ func testParseVectorResult() {
 
 func testParseMatrixResult() {
     def body as string init '{"status":"success","data":{"resultType":"matrix","result":[{"metric":{"job":"api"},"values":[[1700000000,"1"],[1700000015,"2"]]}]}}';
-    def r as Result init parseResult(json.decode($body));
+    def r as Result init parseResult(json.decode($body), 200);
     testing.assertEqual($r.resultType, "matrix");
     testing.assertEqual(len($r.series[0].values), 2);
     testing.assertEqual($r.series[0].values[1].value, 2.0);
@@ -188,7 +188,7 @@ func testParseMatrixResult() {
 
 func testParseScalarResult() {
     def body as string init '{"status":"success","data":{"resultType":"scalar","result":[1700000000,"7"]}}';
-    def r as Result init parseResult(json.decode($body));
+    def r as Result init parseResult(json.decode($body), 200);
     testing.assertEqual($r.resultType, "scalar");
     testing.assertEqual(len($r.series), 1);
     testing.assertEqual($r.series[0].values[0].value, 7.0);
@@ -196,7 +196,7 @@ func testParseScalarResult() {
 
 func parseErrorResponse() {
     def body as string init '{"status":"error","error":"bad_data: parse error"}';
-    parseResult(json.decode($body));
+    parseResult(json.decode($body), 200);
 }
 
 func testParseErrorThrows() {
@@ -315,34 +315,42 @@ func testPushgatewayBase64() {
 }
 
 func nanValue() {
-    parseResult(json.decode('{"status":"success","data":{"resultType":"vector","result":[{"metric":{},"value":[1,"NaN"]}]}}'));
+    parseResult(
+        json.decode('{"status":"success","data":{"resultType":"vector","result":[{"metric":{},"value":[1,"NaN"]}]}}'),
+        200);
 }
 
 func nativeHistogram() {
-    parseResult(json.decode('{"status":"success","data":{"resultType":"vector","result":[{"metric":{},"histogram":[1,{}]}]}}'));
+    parseResult(
+        json.decode('{"status":"success","data":{"resultType":"vector","result":[{"metric":{},"histogram":[1,{}]}]}}'),
+        200);
 }
 
 func noStatus() {
-    parseResult(json.decode('{"data":{}}'));
+    parseResult(json.decode('{"data":{}}'), 200);
 }
 
 func noResult() {
-    parseResult(json.decode('{"status":"success"}'));
+    parseResult(json.decode('{"status":"success"}'), 200);
 }
 
 func testParseFailuresArePrometheusErrors() {
     for (def f in ["nanValue", "nativeHistogram", "noStatus", "noResult"]) {
         testing.assertThrows($f, "prometheus");
     }
-    def r as Result init parseResult(json.decode(
-        '{"status":"success","data":{"resultType":"vector","result":[{"metric":{"kubernetes.io/node":"n1","a~b":"x"},"value":[1,"2"]}]}}'));
+    def r as Result init parseResult(
+        json.decode(
+            '{"status":"success","data":{"resultType":"vector","result":[{"metric":{"kubernetes.io/node":"n1","a~b":"x"},"value":[1,"2"]}]}}'),
+        200);
     testing.assertEqual($r.series[0].metric["kubernetes.io/node"], "n1");
     testing.assertEqual($r.series[0].metric["a~b"], "x");
 }
 
 func cleanedError() {
-    parseResult(json.decode('{"status":"error","error":"line1\nline2\u001b[31m' +
-        strings.repeat("A", 5000) + '"}'));
+    parseResult(
+        json.decode('{"status":"error","error":"line1\nline2\u001b[31m' +
+            strings.repeat("A", 5000) + '"}'),
+        400);
 }
 
 func testServerErrorIsCleaned() {
@@ -363,4 +371,23 @@ func baseWithQuery() {
 func testJoinBase() {
     testing.assertEqual(joinBase("http://h:9090//", "/api/v1/query"), "http://h:9090/api/v1/query");
     testing.assertThrows("baseWithQuery", "prometheus");
+}
+
+# A query error is a PrometheusError with the server's errorType and the HTTP
+# status; a local failure has neither.
+func testQueryErrorsArePrometheusErrors() {
+    try {
+        parseResult(
+            json.decode('{"status":"error","errorType":"bad_data","error":"parse error at char 5"}'),
+            400);
+        throw Error{kind: "missed", message: "a query error"};
+    } catch (e) {
+        testing.assertEqual($e.kind, "prometheus");
+        testing.assertEqual($e.errorType, "bad_data");
+        testing.assertEqual($e.status, 400);
+        testing.assertEqual($e.message, "prometheus: parse error at char 5");
+    }
+    def e as PrometheusError init promError("prometheus: invalid metric name: 1x", "", 0);
+    testing.assertEqual($e.errorType, "");
+    testing.assertEqual($e.status, 0);
 }
