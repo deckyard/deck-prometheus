@@ -799,11 +799,16 @@ func readResult(node as json.Value, httpStatus as int) {
 
 # decodeBody decodes a Prometheus HTTP response, mapping a non-JSON body (a 502
 # HTML page or an auth portal) to a prometheus-kind error, not a raw json one.
+# A body past json's decoding caps stays kind "limit".
 func decodeBody(resp as http.Response) {
     def node as json.Value;
     try {
         $node = json.decode($resp.body);
     } catch (e) {
+        # a decoding cap stays kind "limit"
+        if ($e.kind == "limit") {
+            throw $e;
+        }
         throw promError("prometheus: non-JSON response (HTTP {$resp.status})", "", $resp.status);
     }
     return $node;
@@ -815,7 +820,8 @@ func decodeBody(resp as http.Response) {
  * @param base {string} the Prometheus base URL (e.g. "http://localhost:9090")
  * @param promql {string} the PromQL expression
  * @return {Result} the parsed result set
- * @throws {PrometheusError} kind "prometheus" when the server reports a query error
+ * @throws {PrometheusError} kind "prometheus" when the server reports a query error or the reply is not JSON
+ * @throws {Error} kind "limit" when the reply nests past `json`'s decoding caps
  */
 export func query(base as string, promql as string) {
     def url as string init joinBase($base, "/api/v1/query") + "?query=" + uri.encode($promql);
@@ -833,7 +839,8 @@ export func query(base as string, promql as string) {
  * @param end {string} the range end (RFC 3339 or Unix timestamp)
  * @param step {string} the resolution step (duration or seconds)
  * @return {Result} the parsed result matrix
- * @throws {PrometheusError} kind "prometheus" when the server reports a query error
+ * @throws {PrometheusError} kind "prometheus" when the server reports a query error or the reply is not JSON
+ * @throws {Error} kind "limit" when the reply nests past `json`'s decoding caps
  */
 export func queryRange(
     base as string,

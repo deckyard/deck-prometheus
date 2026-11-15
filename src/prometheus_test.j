@@ -391,3 +391,36 @@ func testQueryErrorsArePrometheusErrors() {
     testing.assertEqual($e.errorType, "");
     testing.assertEqual($e.status, 0);
 }
+
+# A reply past json's nesting cap is kind "limit", not a PrometheusError.
+func testADecodingCapIsALimit() {
+    try {
+        decodeBody(http.Response{
+            status: 200,
+            statusText: "OK",
+            headers: {},
+            body: strings.repeat("[", 1001)
+        });
+        throw Error{kind: "missed", message: "a decoding cap"};
+    } catch (e) {
+        testing.assertEqual($e.kind, "limit");
+    }
+}
+
+# A query whose reply nests past json's cap is kind "limit" end to end.
+func testAQueryPastTheDecodingCapIsALimit() {
+    def srv as httpd.Server init httpd.listen("127.0.0.1:0");
+    defer httpd.shutdown($srv);
+    def t as task of null init spawn {
+        def req as httpd.Request init httpd.accept($srv);
+        httpd.setHeader($req, "Content-Type", "application/json");
+        httpd.respond($req, 200, strings.repeat("[", 1001));
+    };
+    try {
+        query("http://" + httpd.address($srv), "up");
+        throw Error{kind: "missed", message: "a decoding cap"};
+    } catch (e) {
+        testing.assertEqual($e.kind, "limit");
+    }
+    task.wait($t);
+}

@@ -152,8 +152,10 @@ error throws a `PrometheusError` (kind `"prometheus"`, with the server's
 with control characters replaced, as does a response the parser cannot read:
 a `NaN` or `±Inf` value (which Prometheus returns for a division by zero, and
 a Jennifer float cannot hold), a native-histogram point, a `"string"` result
-that is not a number. `base` may end in slashes but cannot have a query or
-fragment.
+that is not a number. A reply nested past `json`'s decoding caps is kind
+`"limit"`, and transport failures come from `http` as it throws them (a
+socket failure is a `net.NetError`, kind `"net"`). `base` may end in slashes
+but cannot have a query or fragment.
 
 ```jennifer
 def r as prometheus.Result init prometheus.query("http://localhost:9090", "up");
