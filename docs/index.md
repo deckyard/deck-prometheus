@@ -108,8 +108,10 @@ a grouping label name that is invalid, reserved or `job`, throws.
 
 ### Strictness
 
-These rules are checked, and a violation throws a catchable `Error` (kind
-`"prometheus"`):
+These rules are checked, and a violation throws a `PrometheusError` (kind
+`"prometheus"`, see the cheatsheet). A parameter typed `Error` does not accept
+the struct: catch it untyped, or type a helper's parameter as
+`prometheus.PrometheusError`.
 
 - A metric name must match `[a-zA-Z_:][a-zA-Z0-9_:]*`; a label name must match
   `[a-zA-Z_][a-zA-Z0-9_]*` and not start with `__` (reserved). A histogram
