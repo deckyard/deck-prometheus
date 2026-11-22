@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 #
 # prometheus_test.j - white-box tests for prometheus.j. Run with:
 #
@@ -349,7 +349,7 @@ func testParseFailuresArePrometheusErrors() {
 func cleanedError() {
     parseResult(
         json.decode('{"status":"error","error":"line1\nline2\u001b[31m' +
-            strings.repeat("A", 5000) + '"}'),
+            strings.replicate("A", 5000) + '"}'),
         400);
 }
 
@@ -399,7 +399,7 @@ func testADecodingCapIsALimit() {
             status: 200,
             statusText: "OK",
             headers: {},
-            body: strings.repeat("[", 1001)
+            body: strings.replicate("[", 1001)
         });
         throw Error{kind: "missed", message: "a decoding cap"};
     } catch (e) {
@@ -414,7 +414,7 @@ func testAQueryPastTheDecodingCapIsALimit() {
     def t as task of null init spawn {
         def req as httpd.Request init httpd.accept($srv);
         httpd.setHeader($req, "Content-Type", "application/json");
-        httpd.respond($req, 200, strings.repeat("[", 1001));
+        httpd.respond($req, 200, strings.replicate("[", 1001));
     };
     try {
         query("http://" + httpd.address($srv), "up");

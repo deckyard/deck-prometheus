@@ -125,8 +125,8 @@ rendered metric set and needs no server.
 
 ## Dependencies on the interpreter
 
-- The floor is `>=0.26.0`, the release that deprecates the bundled module
-  (M30.1).
+- The floor is `>=0.27.0`, for the UTF-8 codec of `encoding.encode` and
+  `strings.replicate`; the bundled module is deprecated from 0.26.0 (M30.1).
 - Thrown error structs are classified by kind in `testing.assertThrows` and
   accepted by lint's L104 (M28.50, M28.51).
 - The deck imports `http`, which needs `net`, so it loads only on the default

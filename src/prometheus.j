@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev>
-# pragma-jennifer-version: >=0.26.0
+# pragma-jennifer-version: >=0.27.0
 
 /**
  * A Prometheus metrics module in two halves. **Exposition** builds a metric set
@@ -215,7 +215,7 @@ def const MAX_ERROR as int init 512;
 func clean(text as string) {
     def flat as string init regex.replace('[\x00-\x08\x0A-\x1F\x7F]', $text, " ");
     if (len($flat) > MAX_ERROR) {
-        return strings.substring($flat, 0, MAX_ERROR) + "...";
+        return $flat[..MAX_ERROR] + "...";
     }
     return $flat;
 }
@@ -683,7 +683,7 @@ func pushSegment(key as string, value as string) {
     }
     if (strings.contains($value, "/")) {
         return "/" + $key + "@base64/" +
-            encoding.toText("base64-url", convert.bytesFromString("utf-8", $value));
+            encoding.toText("base64-url", encoding.encode("utf-8", $value));
     }
     return "/" + $key + "/" + uri.encode($value);
 }

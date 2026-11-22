@@ -40,7 +40,7 @@ io.printf("%s", prometheus.render([$m]));
 
 ## Requirements
 
-Jennifer 0.26.0 or newer, the default `jennifer` binary: the module imports
+Jennifer 0.27.0 or newer, the default `jennifer` binary: the module imports
 `http` (`net`), so `jennifer-tiny` cannot load it.
 
 ## Development

@@ -18,4 +18,4 @@ manual = "https://jennifer-language.github.io/deck-prometheus/"
 # Only the default binary: `jennifer-tiny` has no `net` capability, which
 # the query half needs.
 [engines]
-jennifer = ">=0.26.0"
+jennifer = ">=0.27.0"
