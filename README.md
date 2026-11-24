@@ -5,9 +5,9 @@
 [![release](https://img.shields.io/github/v/release/jennifer-language/deck-prometheus)](https://github.com/jennifer-language/deck-prometheus/releases/latest)
 
 A [Jennifer](https://jennifer-lang.dev/) deck for
-[Prometheus](https://prometheus.io/) metrics: build counters, gauges,
+[Prometheus™](https://prometheus.io/) metrics: build counters, gauges,
 histograms and summaries, render them in the text exposition format (for a
-`/metrics` handler, the node_exporter textfile collector or a Pushgateway),
+`/metrics` handler, the node_exporter textfile collector or a Pushgateway™),
 and query a Prometheus server's HTTP API.
 
 It was Jennifer's bundled `prometheus.j` module until 0.27; the surface is the same,
@@ -58,3 +58,10 @@ LGPL-3.0-only, see [LICENSE](LICENSE). Copyright (C) 2026 mplx &lt;mplx@jennifer
 
 `tools/check-headers.sh` checks every source file's SPDX header against
 `deck.toml`.
+
+## Trademarks
+
+Prometheus™ is a trademark of The Linux Foundation. Other product and company
+names may be trademarks of their respective owners. They are used only to
+identify the products this deck works with. This deck is an independent
+project, not affiliated with, sponsored or endorsed by The Linux Foundation.

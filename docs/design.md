@@ -9,8 +9,8 @@ The deck has two halves:
 
 - **Exposition**: build counters, gauges, histograms and summaries
   (`counter`, `gauge`, `histogram`, `summary`), record observations
-  (`observe`, `observeAt`), and `render` them in the Prometheus text format.
-  `pushgatewayPath` builds the Pushgateway URL path for a job and grouping
+  (`observe`, `observeAt`), and `render` them in the Prometheus™ text format.
+  `pushgatewayPath` builds the Pushgateway™ URL path for a job and grouping
   labels.
 - **Retrieval**: `query` and `queryRange` read the Prometheus HTTP query API
   and return a parsed `Result`.
@@ -25,7 +25,7 @@ It deliberately leaves out:
   set; there is no default registry and no process or runtime metrics.
 - **OpenMetrics, protobuf and native histograms.** The classic text format is
   what every Prometheus version scrapes.
-- **PromQL building or evaluation.** The server evaluates queries; results
+- **PromQL™ building or evaluation.** The server evaluates queries; results
   are read-only values.
 - **The rest of the HTTP API** (series, labels, targets, rules, admin).
 
@@ -66,7 +66,7 @@ It deliberately leaves out:
   A Jennifer float holds no NaN or infinity, so such a value (a division by
   zero, `histogram_quantile` over an empty bucket) is an error naming it, as
   is a native-histogram point; a `"string"` result must be a number.
-- **Same result shape as the InfluxDB deck.** `Result` / `Series` mirror the
+- **Same result shape as the InfluxDB™ deck.** `Result` / `Series` mirror the
   read side of `@jennifer/influxdb`.
 
 ## Errors

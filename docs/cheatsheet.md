@@ -19,8 +19,8 @@ import "@jennifer/prometheus/" as prometheus;
 | `prometheus.summary(name as string, help as string, quantiles as list of float)` | `Metric` | Build an empty summary metric |
 | `prometheus.observe(metric as Metric, labels as map of string to string, value as float)` | `Metric` | Record an observation for a label set, returning a new Metric (value-semantic) |
 | `prometheus.observeAt(metric as Metric, labels as map of string to string, value as float, timestampMs as int)` | `Metric` | Record an observation carrying an explicit millisecond timestamp, returning a new Metric (value-semantic) |
-| `prometheus.render(metrics as list of Metric)` | `string` | Render a list of metrics as the Prometheus text exposition format |
-| `prometheus.pushgatewayPath(job as string, grouping as map of string to string)` | `string` | Build the Pushgateway URL path for a job and a set of grouping labels |
+| `prometheus.render(metrics as list of Metric)` | `string` | Render a list of metrics as the Prometheus™ text exposition format |
+| `prometheus.pushgatewayPath(job as string, grouping as map of string to string)` | `string` | Build the Pushgateway™ URL path for a job and a set of grouping labels |
 | `prometheus.query(base as string, promql as string)` | `Result` | Run an instant query against `base` (a Prometheus server URL) via `/api/v1/query`, returning the parsed result set |
 | `prometheus.queryRange(base as string, promql as string, start as string, end as string, step as string)` | `Result` | Run a range query against `base` via `/api/v1/query_range`, returning the parsed result matrix |
 

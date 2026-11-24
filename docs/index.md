@@ -5,11 +5,11 @@
 
 Metrics exposition and query.
 
-Add it with `jvc add @jennifer/prometheus` and import it with `import "@jennifer/prometheus/" as prometheus;`. A **Prometheus** module in
+Add it with `jvc add @jennifer/prometheus` and import it with `import "@jennifer/prometheus/" as prometheus;`. A **Prometheus™** module in
 two halves. **Exposition** builds a metric set and renders the Prometheus text
 format - pure text over `strings` / `maps` / `lists` / `convert`, and
 transport-agnostic: write the string to a `*.prom` file for the node_exporter
-textfile collector, POST it to a Pushgateway, or serve it from a `/metrics`
+textfile collector, POST it to a Pushgateway™, or serve it from a `/metrics`
 handler. **Retrieval** is a read client for Prometheus's HTTP query API, built on
 the [`http`](https://jennifer-lang.dev/modules/http.html) module + [`json`](https://jennifer-lang.dev/libraries/json.html).
 
@@ -175,7 +175,7 @@ timestamps, and the Pushgateway path - is unit-tested in the overlay
 (`src/prometheus_test.j`), alongside the result parser against canned
 vector / matrix / scalar / error responses. The networked `query` /
 `queryRange` path is covered end to end against an `httpd` server on a
-loopback port standing in for Prometheus, which also proves the PromQL URL
+loopback port standing in for Prometheus, which also proves the PromQL™ URL
 encoding round-trips.
 
 ## Out of scope
@@ -201,3 +201,10 @@ encoding round-trips.
 - [http.md](https://jennifer-lang.dev/modules/http.html) - the client transport the retrieval half builds on.
 - [json.md](https://jennifer-lang.dev/libraries/json.html) - the query-response decoder.
 - [modules/index.md](https://jennifer-lang.dev/modules/index.html) - the module catalog and import rules.
+
+## Trademarks
+
+Prometheus™ is a trademark of The Linux Foundation. Other product and company
+names may be trademarks of their respective owners. They are used only to
+identify the products this deck works with. This deck is an independent
+project, not affiliated with, sponsored or endorsed by The Linux Foundation.
