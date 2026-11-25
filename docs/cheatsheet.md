@@ -3,10 +3,10 @@
 
 # prometheus cheatsheet
 
-Every export of `@jennifer/prometheus`. The guide is [the introduction](index.md).
+Every export of `@deckyard/prometheus`. The guide is [the introduction](index.md).
 
 ```jennifer
-import "@jennifer/prometheus/" as prometheus;
+import "@deckyard/prometheus/" as prometheus;
 ```
 
 ## Functions

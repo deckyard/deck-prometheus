@@ -1,7 +1,7 @@
-# Grimoire book configuration for the @jennifer/prometheus documentation.
+# Grimoire book configuration for the @deckyard/prometheus documentation.
 
 [book]
-title = "@jennifer/prometheus"
+title = "@deckyard/prometheus"
 description = "Prometheus metrics: counters, gauges, histograms and summaries in the text exposition format, and queries against the Prometheus HTTP API"
 language = "en"
 src = "docs"
@@ -18,10 +18,10 @@ navPosition = "left"
 tocPosition = "right"
 tocDepth = 3
 sectionNumbers = true
-titleUrl = "https://jennifer-language.github.io/deck-prometheus/"
-repoUrl = "https://github.com/jennifer-language/deck-prometheus"
+titleUrl = "https://deckyard.github.io/deck-prometheus/"
+repoUrl = "https://github.com/deckyard/deck-prometheus"
 repoLabel = "Source"
-editUrl = "https://github.com/jennifer-language/deck-prometheus/edit/main/docs/{path}"
+editUrl = "https://github.com/deckyard/deck-prometheus/edit/main/docs/{path}"
 
 [highlight]
 enabled = true

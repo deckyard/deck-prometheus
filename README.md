@@ -1,8 +1,8 @@
-# @jennifer/prometheus
+# @deckyard/prometheus
 
-[![test](https://github.com/jennifer-language/deck-prometheus/actions/workflows/test.yml/badge.svg)](https://github.com/jennifer-language/deck-prometheus/actions/workflows/test.yml)
-[![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://jennifer-language.github.io/deck-prometheus/)
-[![release](https://img.shields.io/github/v/release/jennifer-language/deck-prometheus)](https://github.com/jennifer-language/deck-prometheus/releases/latest)
+[![test](https://github.com/deckyard/deck-prometheus/actions/workflows/test.yml/badge.svg)](https://github.com/deckyard/deck-prometheus/actions/workflows/test.yml)
+[![Documentation](https://img.shields.io/badge/docs-github%20pages-blue)](https://deckyard.github.io/deck-prometheus/)
+[![release](https://img.shields.io/github/v/release/deckyard/deck-prometheus)](https://github.com/deckyard/deck-prometheus/releases/latest)
 
 A [Jennifer](https://jennifer-lang.dev/) deck for
 [Prometheus™](https://prometheus.io/) metrics: build counters, gauges,
@@ -14,15 +14,18 @@ It was Jennifer's bundled `prometheus.j` module until 0.27; the surface is the s
 so moving over changes only the import:
 
 ```jennifer
-import "@jennifer/prometheus/" as prometheus;   # was: import "prometheus.j" as prometheus;
+import "@deckyard/prometheus/" as prometheus;   # was: import "prometheus.j" as prometheus;
 ```
 
-**[Documentation](https://jennifer-language.github.io/deck-prometheus/)**
+Up to 0.4.0 this deck was `@jennifer/prometheus`. To switch, change the `[decks]`
+entry to `"@deckyard/prometheus" = "^0.5.0"` and the imports to `"@deckyard/prometheus/"`.
+
+**[Documentation](https://deckyard.github.io/deck-prometheus/)**
 
 ## Install
 
 ```sh
-jvc add @jennifer/prometheus
+jvc add @deckyard/prometheus
 ```
 
 This vendors the deck to `vendor/<scope>/prometheus/`. Without `jvc`, unpack the
@@ -31,7 +34,7 @@ This vendors the deck to `vendor/<scope>/prometheus/`. Without `jvc`, unpack the
 ## Usage
 
 ```jennifer
-import "@jennifer/prometheus/" as prometheus;
+import "@deckyard/prometheus/" as prometheus;
 
 def m as prometheus.Metric init prometheus.counter("http_requests_total", "Total HTTP requests");
 $m = prometheus.observe($m, {"method": "get", "code": "200"}, 1.0);

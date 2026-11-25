@@ -67,7 +67,7 @@ It deliberately leaves out:
   zero, `histogram_quantile` over an empty bucket) is an error naming it, as
   is a native-histogram point; a `"string"` result must be a number.
 - **Same result shape as the InfluxDB™ deck.** `Result` / `Series` mirror the
-  read side of `@jennifer/influxdb`.
+  read side of `@deckyard/influxdb`.
 
 ## Errors
 

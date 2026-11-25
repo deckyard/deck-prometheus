@@ -1,11 +1,11 @@
 <!-- SPDX-License-Identifier: LGPL-3.0-only -->
 <!-- SPDX-FileCopyrightText: Copyright (C) 2026 mplx <mplx@jennifer-lang.dev> -->
 
-# @jennifer/prometheus
+# @deckyard/prometheus
 
 Metrics exposition and query.
 
-Add it with `jvc add @jennifer/prometheus` and import it with `import "@jennifer/prometheus/" as prometheus;`. A **Prometheus™** module in
+Add it with `jvc add @deckyard/prometheus` and import it with `import "@deckyard/prometheus/" as prometheus;`. A **Prometheus™** module in
 two halves. **Exposition** builds a metric set and renders the Prometheus text
 format - pure text over `strings` / `maps` / `lists` / `convert`, and
 transport-agnostic: write the string to a `*.prom` file for the node_exporter
@@ -18,7 +18,7 @@ The module imports `http`, which needs `net`, so it loads only on the default
 refuses it at load time.
 
 ```jennifer
-import "@jennifer/prometheus/" as prometheus;
+import "@deckyard/prometheus/" as prometheus;
 
 def m as prometheus.Metric init prometheus.counter("http_requests_total",
     "Total HTTP requests");
@@ -29,7 +29,7 @@ io.printf("%s", prometheus.render([$m]));
 # http_requests_total{code="200",method="get"} 42.0
 ```
 
-Runnable: [`examples/exposition.j`](https://github.com/jennifer-language/deck-prometheus/blob/main/examples/exposition.j).
+Runnable: [`examples/exposition.j`](https://github.com/deckyard/deck-prometheus/blob/main/examples/exposition.j).
 
 ## Exposition
 
@@ -195,6 +195,15 @@ encoding round-trips.
   variable passed to a module function is copied, every series with it.
 - **Query results are read-only values.** No PromQL building or evaluation - the
   server does that.
+
+## Moving from `@jennifer/prometheus`
+
+Up to 0.4.0 this deck was `@jennifer/prometheus`. Change the `[decks]` entry to
+`"@deckyard/prometheus" = "^0.5.0"` and the imports:
+
+```jennifer
+import "@deckyard/prometheus/" as prometheus;
+```
 
 ## See also
 
